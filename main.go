@@ -9,7 +9,7 @@ package main
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"github.com/rdegges/ipify-api/api"
+	"github.com/owlab-exp/ipify-api/api"
 	"github.com/rs/cors"
 	"log"
 	"net/http"
@@ -37,6 +37,7 @@ func main() {
 		port = "3000"
 	}
 
+	log.Println("This is a derived from rdegges/ipify-api")
 	log.Println("Starting HTTP server on port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
 
