@@ -27,17 +27,21 @@ func GetIP(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		panic(err)
 	}
 
+
 	// We'll always grab the first IP address in the X-Forwarded-For header
 	// list.  We do this because this is always the *origin* IP address, which
 	// is the *true* IP of the user.  For more information on this, see the
 	// Wikipedia page: https://en.wikipedia.org/wiki/X-Forwarded-For
 	ip := net.ParseIP(strings.Split(r.Header.Get("X-Forwarded-For"), ",")[0]).String()
-
 	fmt.Fprintln(os.Stderr, "X-Forwarded-For:", r.Header.Get("X-Forwarded-For"))
-  	if ip == "<nil>" {
-  	  ip = strings.Split(r.RemoteAddr, ":")[0]
-  	  fmt.Fprintln(os.Stderr, "IP From RemoteAddr: ", ip)
-  	}
+  // debug header
+  byte, err := json.Marshall(r)
+  fmt.Fprintln(os.Stderr, "Debug:", string(byte))
+
+  if ip == "<nil>" {
+    ip = strings.Split(r.RemoteAddr, ":")[0]
+    fmt.Fprintln(os.Stderr, "IP From RemoteAddr: ", ip)
+  }
 
 	// If the user specifies a 'format' querystring, we'll try to return the
 	// user's IP address in the specified format.
